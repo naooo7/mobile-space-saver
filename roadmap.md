@@ -7,3 +7,5 @@
 - [x] Replace the warm-brown dark foundation with neutral black and charcoal.
 - [x] Refine all four institution dark palettes and accent-tinted Liquid Glass.
 - [x] Verify every institution in Dark Mode and confirm Light Mode is unchanged.
+- [ ] Merge the Home greeting, streak, and target institution into one compact hero card.
+- [ ] Verify the Home hero at 360px, 390px, 430px, and desktop across themes.
