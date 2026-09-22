@@ -42,7 +42,7 @@ function ExamPage() {
   return (
     <Page>
       <PageTitle title={exam.name} subtitle={`${exam.fullName} · build mastery across every subtest.`} back="/learn" />
-      <div className="grid gap-5 md:grid-cols-3">
+      <div className="grid gap-3 sm:gap-5 md:grid-cols-3">
         {subtests.map((subtest) => {
           const subtestMaterials = materialsForSubtest(subtest.id);
           const mastery = getSubtestMastery(subtest.id);
@@ -59,7 +59,7 @@ function ExamPage() {
                 </div>
                 <ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1" />
               </div>
-              <div className="mt-10">
+              <div className="mt-5 sm:mt-10">
                 <div className="mb-2 flex justify-between text-sm">
                   <span>
                     {subtestMaterials.length} {subtestMaterials.length === 1 ? "Material" : "Materials"} ·{" "}

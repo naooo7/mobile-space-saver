@@ -5,12 +5,12 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 export function Page({ children, narrow = false }: { children: ReactNode; narrow?: boolean }) {
-  return <div className={cn("mx-auto w-full px-5 py-8 md:px-8 md:py-12", narrow ? "max-w-3xl" : "max-w-6xl")}>{children}</div>;
+  return <div className={cn("mx-auto w-full px-4 py-5 sm:px-5 sm:py-8 md:px-8 md:py-12", narrow ? "max-w-3xl" : "max-w-6xl")}>{children}</div>;
 }
 
 export function PageTitle({ eyebrow, title, subtitle, back }: { eyebrow?: string; title: string; subtitle?: string; back?: string }) {
-  return <div className="mb-8 animate-rise md:mb-10">
-    {back && <Link to={back} className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground"><ArrowLeft className="h-4 w-4" /> Back</Link>}
+  return <div className="mb-5 animate-rise sm:mb-8 md:mb-10">
+    {back && <Link to={back} className="mb-4 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground sm:mb-6"><ArrowLeft className="h-4 w-4" /> Back</Link>}
     {eyebrow && <p className="mb-2 text-sm font-semibold text-primary">{eyebrow}</p>}
     <h1 className="font-display text-3xl font-bold text-foreground md:text-4xl">{title}</h1>
     {subtitle && <p className="mt-2 max-w-2xl text-base text-muted-foreground">{subtitle}</p>}
@@ -18,7 +18,7 @@ export function PageTitle({ eyebrow, title, subtitle, back }: { eyebrow?: string
 }
 
 export function Surface({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn("rounded-2xl border border-border/80 bg-card p-5 shadow-soft md:p-6", className)}>{children}</div>;
+  return <div className={cn("rounded-2xl border border-border/80 bg-card p-4 shadow-soft sm:p-5 md:p-6", className)}>{children}</div>;
 }
 
 export function ProgressBar({ value }: { value: number }) {
@@ -62,7 +62,7 @@ export function TrendChart({ data, label, unit = "" }: { data: TrendDatum[]; lab
 }
 
 export function LinkRow({ to, title, subtitle, trailing }: { to: string; title: string; subtitle?: string; trailing?: ReactNode }) {
-  return <Link to={to} className="group flex items-center gap-4 rounded-xl border border-border bg-card p-4 transition-all hover:-translate-y-0.5 hover:shadow-soft">
+  return <Link to={to} className="group flex min-h-14 items-center gap-3 rounded-xl border border-border bg-card p-3 transition-all hover:-translate-y-0.5 hover:shadow-soft sm:gap-4 sm:p-4">
     <div className="min-w-0 flex-1"><p className="font-semibold text-foreground">{title}</p>{subtitle && <p className="mt-0.5 text-sm text-muted-foreground">{subtitle}</p>}</div>
     {trailing}<ChevronRight className="h-5 w-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
   </Link>;

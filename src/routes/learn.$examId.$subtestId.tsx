@@ -45,7 +45,7 @@ function SubtestPage() {
         subtitle={`${subtest.fullName} · choose a material to study or practice.`}
         back={`/learn/${exam.id}`}
       />
-      <div className="space-y-3">
+      <div className="space-y-2 sm:space-y-3">
         {materialsForSubtest(subtest.id).map((material) => {
           const mastery = getMaterialMastery(material.id);
           const materialQuestions = questionsForMaterial(material.id);
