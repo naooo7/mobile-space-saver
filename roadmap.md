@@ -9,6 +9,6 @@
 - [x] Verify every institution in Dark Mode and confirm Light Mode is unchanged.
 - [x] Merge the Home greeting, streak, and target institution into one compact hero card.
 - [x] Verify the Home hero at 360px, 390px, 430px, and desktop across themes.
-- [ ] Remove the Continue Learning label and compact the Home learning card.
-- [ ] Tighten the Focus, Review, and weekly progress cards on mobile.
-- [ ] Verify Home card density at 360px, 390px, 430px, and desktop.
+- [x] Remove the Continue Learning label and compact the Home learning card.
+- [x] Tighten the Focus, Review, and weekly progress cards on mobile.
+- [x] Verify Home card density at 360px, 390px, 430px, and desktop.
