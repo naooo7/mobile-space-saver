@@ -40,14 +40,14 @@ export function MiniLine({ values, height = 100 }: { values: number[]; height?: 
 
 export type TrendDatum = { label: string; value: number | null };
 
-export function TrendChart({ data, label, unit = "" }: { data: TrendDatum[]; label: string; unit?: string }) {
+export function TrendChart({ data, label, unit = "", compact = false }: { data: TrendDatum[]; label: string; unit?: string; compact?: boolean }) {
   const populated = data.filter((point) => point.value !== null);
   if (populated.length === 0) {
-    return <div className="flex h-48 items-center justify-center rounded-xl bg-secondary/55 px-6 text-center text-sm text-muted-foreground">Your chart will appear after you complete some questions.</div>;
+    return <div className={cn("flex items-center justify-center rounded-xl bg-secondary/55 px-6 text-center text-sm text-muted-foreground", compact ? "h-28 sm:h-32" : "h-48")}>Your chart will appear after you complete some questions.</div>;
   }
   const max = Math.max(1, ...populated.map((point) => point.value ?? 0));
   return <div className="overflow-x-auto pb-1" aria-label={label} role="img">
-    <div className="flex h-48 min-w-[30rem] items-end gap-1.5 border-b border-border px-1 pt-8">
+    <div className={cn("flex min-w-[30rem] items-end gap-1.5 border-b border-border px-1", compact ? "h-28 pt-4 sm:h-32" : "h-48 pt-8")}>
       {data.map((point, index) => {
         const value = point.value ?? 0;
         return <div key={`${point.label}-${index}`} className="group flex h-full min-w-2 flex-1 items-end" title={`${point.label}: ${point.value === null ? "No activity" : `${point.value}${unit}`}`}>
