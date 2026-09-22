@@ -4,3 +4,6 @@
 - [x] Compact mobile Drill and Choose Material while preserving comfortable controls.
 - [x] Apply matching mobile spacing to related Learn lists without compressing desktop.
 - [x] Verify 360px, 390px, 430px, desktop, themes, overflow, and console errors.
+- [x] Replace the warm-brown dark foundation with neutral black and charcoal.
+- [x] Refine all four institution dark palettes and accent-tinted Liquid Glass.
+- [ ] Verify every institution in Dark Mode and confirm Light Mode is unchanged.
