@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, BookOpen, Clock3, Flame, GraduationCap, RotateCcw, Sparkles, Target } from "lucide-react";
+import { ArrowRight, BookOpen, Flame, RotateCcw, Sparkles, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Metric, Page, ProgressBar, Surface, TrendChart } from "@/components/app-ui";
 import { useTheme } from "@/hooks/use-theme";
@@ -7,12 +7,10 @@ import { useUserData } from "@/hooks/use-user-data";
 import { useProfilePreferences } from "@/hooks/use-profile-preferences";
 import { cn } from "@/lib/utils";
 import { questionsForMaterial } from "@/data/questions";
-import { subtestById } from "@/data/catalog";
 import {
   formatDuration,
   getActivitySeries,
   getContinueMaterial,
-  getMaterialMastery,
   getOverview,
   getReviewQuestionIds,
   getStreak,
@@ -36,8 +34,6 @@ function HomePage() {
   const focus = getWeakMaterials(1)[0];
   const focusMaterial = focus?.material ?? continueMaterial;
   const focusCount = Math.min(15, questionsForMaterial(focusMaterial?.id ?? "").length);
-  const mastery = continueMaterial ? getMaterialMastery(continueMaterial.id) : 0;
-  const continueSubtest = continueMaterial ? subtestById(continueMaterial.subtestId) : undefined;
   const activity = getActivitySeries("week");
   const greeting = new Date().getHours() < 12 ? "Good morning" : new Date().getHours() < 18 ? "Good afternoon" : "Good evening";
 
@@ -63,22 +59,10 @@ function HomePage() {
       </div>
     </section>
 
-    <section className="grid gap-3 sm:gap-5 lg:grid-cols-[1.5fr_1fr]">
-      <Surface className="home-drill relative overflow-hidden border-primary/15 text-primary-foreground sm:p-5 md:p-6">
-        <div className="home-drill-reflection pointer-events-none absolute inset-0" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex w-[42%] items-center justify-center sm:w-1/2">
-          {targetInstitution ? <><div className="home-logo-glow absolute h-32 w-32 rounded-full sm:h-44 sm:w-44 md:h-52 md:w-52" /><img src={targetInstitution.logo} alt="" className="home-logo h-28 w-32 object-contain sm:h-40 sm:w-40 md:h-52 md:w-52" /></> : <GraduationCap className="home-logo h-28 w-28 sm:h-36 sm:w-36 md:h-48 md:w-48" strokeWidth={1} />}
-        </div>
-        <div className="relative z-10 max-w-[82%] sm:max-w-[68%]">
-          <h2 className="font-display text-2xl font-bold sm:text-3xl">{continueMaterial?.name ?? "Start your first material"}</h2>
-          <p className="mt-1 text-sm text-primary-foreground/80 sm:text-base">{continueMaterial ? `${continueMaterial.examId.toUpperCase()}${continueSubtest ? ` · ${continueSubtest.name}` : ""}` : "Build your learning history one question at a time"}</p>
-          {continueMaterial && <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:mt-5"><ProgressBar value={mastery} /><strong className="shrink-0 text-xs sm:text-sm">{mastery}% mastery</strong></div>}
-          <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:mt-5 sm:flex sm:flex-wrap sm:gap-4"><span className="flex min-w-0 items-center gap-2 text-sm text-primary-foreground/80"><Clock3 className="h-4 w-4 shrink-0" /><span className="truncate">{week.total ? `${week.total} answered this week` : "Ready when you are"}</span></span>{continueMaterial && <Button asChild className="min-h-11 shrink-0 px-4"><Link to="/material/$materialId" params={{ materialId: continueMaterial.id }}>Continue <ArrowRight /></Link></Button>}</div>
-        </div>
-      </Surface>
+    <section className="grid gap-3 sm:gap-5">
       <Surface className="flex flex-col justify-between sm:p-5 md:p-6">
         <div><div className="flex items-center gap-3"><div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-foreground sm:h-10 sm:w-10"><Target className="h-5 w-5" /></div><p className="text-sm font-medium text-muted-foreground">Today’s Focus</p></div><h2 className="mt-3 font-display text-xl font-bold">{focus ? focus.material.name : "Build your baseline"}</h2><p className="mt-1 text-sm text-muted-foreground">{focus ? `${focus.accuracy}% accuracy · recommended practice` : "Practice a few questions to reveal your weak areas."}</p></div>
-        <div className="mt-4 sm:mt-6">{focus && <><div className="mb-2 flex justify-between text-sm"><span>Mastery</span><strong>{focus.mastery}%</strong></div><ProgressBar value={focus.mastery} /></>}<Button asChild className="mt-4 min-h-11 w-full sm:mt-5" disabled={!focusMaterial || focusCount === 0}><Link to="/question" search={{ source: "today", material: focusMaterial?.id, count: Math.max(1, focusCount), difficulty: "All", status: "All", challenge: false }}>Practice Focus <ArrowRight /></Link></Button></div>
+        <div className="mt-4 sm:mt-6">{focus && <><div className="mb-2 flex justify-between text-sm"><span>Mastery</span><strong>{focus.mastery}%</strong></div><ProgressBar value={focus.mastery} /></>}<Button asChild className="mt-4 min-h-11 w-full sm:mt-5 sm:w-auto" disabled={!focusMaterial || focusCount === 0}><Link to="/question" search={{ source: "today", material: focusMaterial?.id, count: Math.max(1, focusCount), difficulty: "All", status: "All", challenge: false }}>Practice Focus <ArrowRight /></Link></Button></div>
       </Surface>
     </section>
 

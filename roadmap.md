@@ -12,3 +12,4 @@
 - [x] Remove the Continue Learning label and compact the Home learning card.
 - [x] Tighten the Focus, Review, and weekly progress cards on mobile.
 - [x] Verify Home card density at 360px, 390px, 430px, and desktop.
+- [x] Remove the Home learning card and tighten the resulting spacing.
