@@ -40,15 +40,24 @@ function HomePage() {
   const greeting = new Date().getHours() < 12 ? "Good morning" : new Date().getHours() < 18 ? "Good afternoon" : "Good evening";
 
   return <Page>
-    <section className={cn("relative mb-7 overflow-hidden rounded-3xl border border-border/60 bg-card p-6 shadow-soft transition-all duration-500 animate-rise md:p-9", institutionThemeEnabled && hasInstitution && "glass-primary border-primary/20")}>
-      {targetInstitution && <div className="pointer-events-none absolute -right-8 -top-8 opacity-10 md:opacity-15"><img src={targetInstitution.logo} alt="" className="h-48 w-64 object-contain" /></div>}
-      <div className="relative z-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+    <section className={cn("home-hero relative mb-5 min-h-40 overflow-hidden rounded-2xl border p-5 shadow-soft transition-all duration-500 animate-rise sm:min-h-44 sm:rounded-3xl sm:p-6 md:mb-7 md:min-h-48 md:p-8", institutionThemeEnabled && hasInstitution && "home-hero-themed")}>
+      <div className="home-hero-reflection pointer-events-none absolute inset-0" />
+      {targetInstitution && <div className="pointer-events-none absolute inset-y-0 right-0 flex w-[42%] items-center justify-center sm:w-[38%]">
+        <div className="home-hero-logo-glow absolute size-32 rounded-full sm:size-40 md:size-48" />
+        <img src={targetInstitution.logo} alt="" className="home-hero-logo h-32 w-36 object-contain sm:h-40 sm:w-44 md:h-48 md:w-56" />
+      </div>}
+      <div className="relative z-10 flex min-h-30 max-w-[78%] flex-col justify-between sm:min-h-32 sm:max-w-[72%] md:min-h-32 md:max-w-[68%]">
         <div>
-          <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-secondary/90 px-3 py-1.5 text-sm font-semibold text-secondary-foreground backdrop-blur-sm"><Flame className="h-4 w-4 text-primary" /> {streak.current > 0 ? `${streak.current} day streak` : "Start your streak today"}</p>
-          <h1 className="font-display text-3xl font-bold md:text-5xl">{greeting}{profile.displayName && profile.displayName !== "Your Profile" ? `, ${profile.displayName}` : ""}.</h1>
-          <p className="mt-2 text-muted-foreground">Pick up where you left off, or start a focused session.</p>
+          <h1 className="font-display text-2xl font-bold text-card-foreground sm:text-3xl md:text-4xl">{greeting}{profile.displayName && profile.displayName !== "Your Profile" ? `, ${profile.displayName}` : ""}</h1>
+          <p className="mt-1 max-w-xl text-sm leading-5 text-muted-foreground sm:mt-2 sm:text-base">Pick up where you left off, or start a focused session.</p>
         </div>
-        {targetInstitution && <div className="flex items-center gap-3 rounded-2xl border border-border/60 bg-card/80 p-3 shadow-soft backdrop-blur-md"><img src={targetInstitution.logo} alt={targetInstitution.shortName} className="h-10 w-10 object-contain" /><div><p className="text-xs font-bold uppercase text-muted-foreground">Target</p><p className="font-display text-sm font-bold">{targetInstitution.shortName}</p></div></div>}
+        <div className="mt-4 flex flex-wrap items-end gap-x-4 gap-y-2 sm:mt-5 sm:gap-x-6">
+          <p className="inline-flex min-h-8 items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary sm:text-sm"><Flame className="h-3.5 w-3.5" /> {streak.current > 0 ? `${streak.current} day streak` : "Start your streak"}</p>
+          {targetInstitution && <div className="min-w-0 border-l border-border/70 pl-4 sm:pl-6">
+            <p className="text-[10px] font-bold uppercase text-muted-foreground">Target</p>
+            <p className="truncate font-display text-sm font-bold text-card-foreground sm:text-base">{targetInstitution.shortName}</p>
+          </div>}
+        </div>
       </div>
     </section>
 
