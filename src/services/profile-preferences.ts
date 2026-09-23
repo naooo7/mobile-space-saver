@@ -76,6 +76,6 @@ export function setInstitutionThemeEnabled(institutionThemeEnabled: boolean) {
   writePreferences({ institutionThemeEnabled });
 }
 
-export function setProfileIdentity(displayName: string, avatarUrl: string | null) {
-  writePreferences({ displayName: displayName.trim() || emptyPreferences.displayName, avatarUrl });
+export function setProfileIdentity(displayName: string, avatarUrl: string | null, tagline = "") {
+  writePreferences({ displayName: displayName.trim() || emptyPreferences.displayName, avatarUrl, tagline: tagline.trim().slice(0, 120) });
 }
