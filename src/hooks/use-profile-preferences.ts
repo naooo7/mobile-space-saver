@@ -12,7 +12,9 @@ const serverSnapshot: ProfilePreferences = {
   institutionThemeEnabled: false,
   displayName: "Your Profile",
   avatarUrl: null,
+  tagline: "",
 };
+
 
 export function useProfilePreferences() {
   const preferences = useSyncExternalStore(
