@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, BookOpen, Flame, RotateCcw, Sparkles, Target } from "lucide-react";
+import { ArrowRight, BookOpen, Flame, RotateCcw, Target } from "lucide-react";
+import { DEFAULT_TAGLINE } from "@/services/profile-preferences";
+
 import { Button } from "@/components/ui/button";
 import { Metric, Page, ProgressBar, Surface, TrendChart } from "@/components/app-ui";
 import { useTheme } from "@/hooks/use-theme";
@@ -47,7 +49,7 @@ function HomePage() {
       <div className="relative z-10 flex min-h-30 max-w-[78%] flex-col justify-between sm:min-h-32 sm:max-w-[72%] md:min-h-32 md:max-w-[68%]">
         <div>
           <h1 className="font-display text-2xl font-bold text-card-foreground sm:text-3xl md:text-4xl">{greeting}{profile.displayName && profile.displayName !== "Your Profile" ? `, ${profile.displayName}` : ""}</h1>
-          <p className="mt-1 max-w-xl text-sm leading-5 text-muted-foreground sm:mt-2 sm:text-base">Pick up where you left off, or start a focused session.</p>
+          <p className="mt-1 max-w-xl text-sm leading-5 text-muted-foreground sm:mt-2 sm:text-base">{profile.tagline?.trim() || DEFAULT_TAGLINE}</p>
         </div>
         <div className="mt-4 flex flex-wrap items-end gap-x-4 gap-y-2 sm:mt-5 sm:gap-x-6">
           <p className="inline-flex min-h-8 items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary sm:text-sm"><Flame className="h-3.5 w-3.5" /> {streak.current > 0 ? `${streak.current} day streak` : "Start your streak"}</p>
