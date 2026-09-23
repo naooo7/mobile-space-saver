@@ -8,7 +8,10 @@ export type ProfilePreferences = {
   institutionThemeEnabled?: boolean;
   displayName: string;
   avatarUrl: string | null;
+  tagline: string;
 };
+
+export const DEFAULT_TAGLINE = "Pick up where you left off, or start a focused session.";
 
 const emptyPreferences: ProfilePreferences = {
   version: 1,
@@ -16,7 +19,9 @@ const emptyPreferences: ProfilePreferences = {
   institutionThemeEnabled: false,
   displayName: "Your Profile",
   avatarUrl: null,
+  tagline: "",
 };
+
 
 const listeners = new Set<() => void>();
 let browserEnabled = false;
@@ -71,6 +76,6 @@ export function setInstitutionThemeEnabled(institutionThemeEnabled: boolean) {
   writePreferences({ institutionThemeEnabled });
 }
 
-export function setProfileIdentity(displayName: string, avatarUrl: string | null) {
-  writePreferences({ displayName: displayName.trim() || emptyPreferences.displayName, avatarUrl });
+export function setProfileIdentity(displayName: string, avatarUrl: string | null, tagline = "") {
+  writePreferences({ displayName: displayName.trim() || emptyPreferences.displayName, avatarUrl, tagline: tagline.trim().slice(0, 120) });
 }

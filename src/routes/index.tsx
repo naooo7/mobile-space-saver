@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, BookOpen, Flame, RotateCcw, Sparkles, Target } from "lucide-react";
+import { ArrowRight, BookOpen, Flame, RotateCcw, Target } from "lucide-react";
+import { DEFAULT_TAGLINE } from "@/services/profile-preferences";
+
 import { Button } from "@/components/ui/button";
 import { Metric, Page, ProgressBar, Surface, TrendChart } from "@/components/app-ui";
 import { useTheme } from "@/hooks/use-theme";
@@ -47,7 +49,7 @@ function HomePage() {
       <div className="relative z-10 flex min-h-30 max-w-[78%] flex-col justify-between sm:min-h-32 sm:max-w-[72%] md:min-h-32 md:max-w-[68%]">
         <div>
           <h1 className="font-display text-2xl font-bold text-card-foreground sm:text-3xl md:text-4xl">{greeting}{profile.displayName && profile.displayName !== "Your Profile" ? `, ${profile.displayName}` : ""}</h1>
-          <p className="mt-1 max-w-xl text-sm leading-5 text-muted-foreground sm:mt-2 sm:text-base">Pick up where you left off, or start a focused session.</p>
+          <p className="mt-1 max-w-xl text-sm leading-5 text-muted-foreground sm:mt-2 sm:text-base">{profile.tagline?.trim() || DEFAULT_TAGLINE}</p>
         </div>
         <div className="mt-4 flex flex-wrap items-end gap-x-4 gap-y-2 sm:mt-5 sm:gap-x-6">
           <p className="inline-flex min-h-8 items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary sm:text-sm"><Flame className="h-3.5 w-3.5" /> {streak.current > 0 ? `${streak.current} day streak` : "Start your streak"}</p>
@@ -66,7 +68,6 @@ function HomePage() {
       </Surface>
     </section>
 
-    <section className="mt-5"><div className="mb-3 flex items-center gap-2"><Sparkles className="h-4 w-4 text-primary" /><h2 className="font-display font-bold">Quick Start</h2></div><div className="grid grid-cols-2 gap-2 sm:grid-cols-4">{[10,15,20].map((count) => <Button key={count} variant="outline" asChild><Link to="/question" search={{ source: "custom", count, difficulty: "All", status: "All", challenge: false }}>{count} Questions</Link></Button>)}<Button variant="outline" asChild><Link to="/question" search={{ source: "custom", count: 10, difficulty: "All", status: "All", challenge: true }}>60s Challenge</Link></Button></div></section>
 
     <section className="mt-5 grid gap-3 sm:gap-5 lg:grid-cols-[0.8fr_1.2fr]">
       <Surface className="flex flex-col justify-between sm:p-5 md:p-6"><div><div className="flex items-center gap-3"><div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-secondary text-foreground sm:h-10 sm:w-10"><RotateCcw className="h-5 w-5" /></div><h2 className="font-display text-xl font-bold">Needs Review</h2></div><p className="mt-3 text-sm text-muted-foreground sm:text-base">{reviewCount ? `${reviewCount} question${reviewCount === 1 ? "" : "s"} waiting for another look` : "Nothing is waiting for review."}</p></div>{reviewCount ? <Button asChild variant="outline" className="mt-4 min-h-11 w-full sm:mt-6"><Link to="/question" search={{ source: "review", count: 10, difficulty: "All", status: "All", challenge: false }}>Review Now</Link></Button> : <Button type="button" variant="outline" className="mt-4 min-h-11 w-full sm:mt-6" disabled>Review Now</Button>}</Surface>

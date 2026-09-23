@@ -12,7 +12,7 @@ import { institutionById, institutions } from "@/data/institutions";
 import { useProfilePreferences } from "@/hooks/use-profile-preferences";
 import { useTheme, type ThemePreference } from "@/hooks/use-theme";
 import { useUserData } from "@/hooks/use-user-data";
-import { setProfileIdentity } from "@/services/profile-preferences";
+import { DEFAULT_TAGLINE, setProfileIdentity } from "@/services/profile-preferences";
 import { formatDuration, getOverview, getStreak } from "@/services/user-data";
 
 export const Route = createFileRoute("/profile")({ head: () => ({ meta: [{ title: "Profile — FastLearner" }, { name: "description", content: "View your FastLearner profile, study totals, and preferences." }, { property: "og:title", content: "Profile — FastLearner" }, { property: "og:description", content: "View your FastLearner profile, study totals, and preferences." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }), component: ProfilePage });
@@ -35,7 +35,7 @@ function ProfilePage() {
   return <Page narrow>
     <PageTitle title="Profile" />
     <div className="mb-5 flex items-center gap-4"><ProfileAvatar displayName={profile.displayName} avatarUrl={profile.avatarUrl} className="h-16 w-16" fallbackClassName="text-xl" /><div className="min-w-0"><div className="flex items-center gap-2"><h2 className="truncate font-display text-2xl font-bold">{profile.displayName || "Your Profile"}</h2><Button type="button" variant="ghost" size="icon" className="h-8 w-8 shrink-0 rounded-full" onClick={() => setEditorOpen(true)} aria-label="Edit profile"><Pencil /></Button></div><p className="text-muted-foreground">Your activity stays on this device</p></div><div className="ml-auto hidden items-center gap-2 rounded-full bg-secondary px-3 py-2 text-sm font-semibold sm:flex"><Flame className="h-4 w-4 text-primary" />{streak.current} day streak</div></div>
-    <ProfileEditor open={editorOpen} onOpenChange={setEditorOpen} displayName={profile.displayName || "Your Profile"} avatarUrl={profile.avatarUrl || null} />
+    <ProfileEditor open={editorOpen} onOpenChange={setEditorOpen} displayName={profile.displayName || "Your Profile"} avatarUrl={profile.avatarUrl || null} tagline={profile.tagline || ""} />
     <Surface><div className="grid grid-cols-2 gap-7"><Metric label="Questions Answered" value={overview.total} /><Metric label="Accuracy" value={overview.total ? `${overview.accuracy}%` : "—"} /><Metric label="Study Time" value={formatDuration(overview.studySeconds)} /><Metric label="Longest Streak" value={`${streak.longest} day${streak.longest === 1 ? "" : "s"}`} /></div></Surface>
     <h2 className="mb-3 mt-9 font-display text-lg font-bold">Target Institution</h2>
     <Surface>{target && <div className="relative mb-5 flex min-h-24 items-center gap-4 overflow-hidden rounded-xl bg-secondary p-4"><img src={target.logo} alt="" className="absolute -right-4 h-28 w-36 object-contain opacity-10" /><img src={target.logo} alt={`${target.shortName} logo`} className="h-14 w-16 shrink-0 object-contain" /><div className="relative min-w-0"><p className="text-sm text-muted-foreground">Selected institution</p><p className="mt-1 font-display text-lg font-bold">{target.shortName}</p><p className="text-sm text-muted-foreground">{target.name}</p></div></div>}
@@ -52,11 +52,13 @@ type ProfileEditorProps = {
   onOpenChange: (open: boolean) => void;
   displayName: string;
   avatarUrl: string | null;
+  tagline: string;
 };
 
-function ProfileEditor({ open, onOpenChange, displayName, avatarUrl }: ProfileEditorProps) {
+function ProfileEditor({ open, onOpenChange, displayName, avatarUrl, tagline }: ProfileEditorProps) {
   const [name, setName] = useState(displayName);
   const [photo, setPhoto] = useState<string | null>(avatarUrl);
+  const [note, setNote] = useState(tagline);
   const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -64,8 +66,10 @@ function ProfileEditor({ open, onOpenChange, displayName, avatarUrl }: ProfileEd
     if (!open) return;
     setName(displayName);
     setPhoto(avatarUrl);
+    setNote(tagline);
     setError("");
-  }, [avatarUrl, displayName, open]);
+  }, [avatarUrl, displayName, open, tagline]);
+
 
   const handlePhoto = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -93,13 +97,13 @@ function ProfileEditor({ open, onOpenChange, displayName, avatarUrl }: ProfileEd
       setError("Enter a display name.");
       return;
     }
-    setProfileIdentity(nextName.slice(0, 50), photo);
+    setProfileIdentity(nextName.slice(0, 50), photo, note);
     onOpenChange(false);
   };
 
   return <Dialog open={open} onOpenChange={onOpenChange}>
     <DialogContent className="w-[calc(100%-2rem)] rounded-2xl sm:max-w-md">
-      <DialogHeader><DialogTitle>Edit profile</DialogTitle><DialogDescription>Update how your name and photo appear in FastLearner.</DialogDescription></DialogHeader>
+      <DialogHeader><DialogTitle>Edit profile</DialogTitle><DialogDescription>Update how your name, photo and tagline appear in FastLearner.</DialogDescription></DialogHeader>
       <div className="flex flex-col items-center gap-3 py-2">
         <ProfileAvatar displayName={name} avatarUrl={photo} className="h-24 w-24 ring-4 ring-secondary" fallbackClassName="text-2xl" />
         <input ref={inputRef} type="file" accept="image/*" className="sr-only" onChange={handlePhoto} aria-label="Choose profile photo" />
@@ -109,6 +113,8 @@ function ProfileEditor({ open, onOpenChange, displayName, avatarUrl }: ProfileEd
         </div>
       </div>
       <div className="grid gap-2"><Label htmlFor="display-name">Display name</Label><Input id="display-name" value={name} onChange={(event) => setName(event.target.value)} maxLength={50} autoComplete="name" /></div>
+      <div className="grid gap-2"><Label htmlFor="profile-tagline">Personal tagline</Label><Input id="profile-tagline" value={note} onChange={(event) => setNote(event.target.value)} maxLength={120} placeholder={DEFAULT_TAGLINE} /><p className="text-xs text-muted-foreground">Leave empty to use the default tagline.</p></div>
+
       {error ? <p role="alert" className="text-sm text-destructive">{error}</p> : null}
       <DialogFooter className="gap-2"><Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button><Button type="button" onClick={save}>Save changes</Button></DialogFooter>
     </DialogContent>
