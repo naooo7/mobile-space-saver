@@ -52,11 +52,13 @@ type ProfileEditorProps = {
   onOpenChange: (open: boolean) => void;
   displayName: string;
   avatarUrl: string | null;
+  tagline: string;
 };
 
-function ProfileEditor({ open, onOpenChange, displayName, avatarUrl }: ProfileEditorProps) {
+function ProfileEditor({ open, onOpenChange, displayName, avatarUrl, tagline }: ProfileEditorProps) {
   const [name, setName] = useState(displayName);
   const [photo, setPhoto] = useState<string | null>(avatarUrl);
+  const [note, setNote] = useState(tagline);
   const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -64,8 +66,10 @@ function ProfileEditor({ open, onOpenChange, displayName, avatarUrl }: ProfileEd
     if (!open) return;
     setName(displayName);
     setPhoto(avatarUrl);
+    setNote(tagline);
     setError("");
-  }, [avatarUrl, displayName, open]);
+  }, [avatarUrl, displayName, open, tagline]);
+
 
   const handlePhoto = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
