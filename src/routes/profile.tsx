@@ -12,7 +12,7 @@ import { institutionById, institutions } from "@/data/institutions";
 import { useProfilePreferences } from "@/hooks/use-profile-preferences";
 import { useTheme, type ThemePreference } from "@/hooks/use-theme";
 import { useUserData } from "@/hooks/use-user-data";
-import { setProfileIdentity } from "@/services/profile-preferences";
+import { DEFAULT_TAGLINE, setProfileIdentity } from "@/services/profile-preferences";
 import { formatDuration, getOverview, getStreak } from "@/services/user-data";
 
 export const Route = createFileRoute("/profile")({ head: () => ({ meta: [{ title: "Profile — FastLearner" }, { name: "description", content: "View your FastLearner profile, study totals, and preferences." }, { property: "og:title", content: "Profile — FastLearner" }, { property: "og:description", content: "View your FastLearner profile, study totals, and preferences." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }), component: ProfilePage });
